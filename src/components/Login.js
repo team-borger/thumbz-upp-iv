@@ -1,17 +1,15 @@
 import React from 'react';
-import { View, Button, Text } from 'react-native';
+import { View, Text } from 'react-native';
+import { Button } from 'react-native-paper';
 
 const Cat = ({ navigation }) => {
   const name = "Login Page";
   return (
     <View>
       <Text>Hello, this is {name}!</Text>
-      <Button
-        title="Go to registration"
-        onPress={() =>
-          navigation.navigate('Register')
-        }
-      />
+      <Button icon="account" mode="contained" onPress={() => navigation.navigate('Register')}>
+        Register
+      </Button>
     </View>
   );
 }
