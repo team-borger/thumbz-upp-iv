@@ -1,11 +1,11 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-const Cat = () => {
+const Kek = () => {
   const name = "Register Page";
   return (
     <Text>Hello, this is {name}!</Text>
   );
 }
 
-export default Cat;
+export default Kek;
