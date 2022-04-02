@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Button, DrawerLayoutAndroid, Text, StyleSheet, View } from "react-native";
 
-const App = () => {
+const App = ({ navigation }) => {
   const drawer = useRef(null);
   const [drawerPosition, setDrawerPosition] = useState("left");
   const changeDrawerPosition = () => {
@@ -33,6 +33,10 @@ const App = () => {
         <Button
           title="Open drawer"
           onPress={() => drawer.current.openDrawer()}
+        />
+        <Button
+          title="Go to call"
+          onPress={() => navigation.navigate('Call')}
         />
       </View>
     </DrawerLayoutAndroid>
