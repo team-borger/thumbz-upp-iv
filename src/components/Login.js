@@ -1,16 +1,33 @@
 import React from 'react';
-import { StyleSheet, View, Button, Text } from 'react-native';
+import { StyleSheet, View, Button, Text, TextInput } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Kek = ({ navigation }) => {
+  const [text, onChangeText] = React.useState(null);
   const name = "Login Page";
+
+  const onLogin = async () => {
+    try {
+      await AsyncStorage.setItem('userId', text)
+
+      navigation.navigate('Home')
+    } catch (e) {
+      // saving error
+    }
+  }
+
   return (
     <View>
-      <Text>Hello, this is {name}!</Text>
+      <Text>Hello, this is {text ? text : name }!</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeText}
+        value={text}
+        placeholder="user id"
+      />
       <Button
         title="Go to Home"
-        onPress={() =>
-          navigation.navigate('Home')
-        }
+        onPress={() => onLogin({text})}
         style={styles.b1}
       />
       <Button
@@ -21,6 +38,10 @@ const Kek = ({ navigation }) => {
       />
     </View>
   );
+}
+
+const onChangeText = () => {
+  console.log(123)
 }
 
 const styles = StyleSheet.create({
@@ -35,6 +56,12 @@ const styles = StyleSheet.create({
   // red: {
   //   color: 'red',
   // },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
   b1: {
     marginBottom: 100,
   }
