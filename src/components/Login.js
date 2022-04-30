@@ -1,19 +1,37 @@
 import React from 'react';
-import { StyleSheet, View, Button, Text, TextInput } from 'react-native';
+import { StyleSheet, View, Button, Text, TextInput, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import environment from './environment.js';
+console.log(1, environment.CONNECTYCUBE_CREDENTIALS)
 
 const Kek = ({ navigation }) => {
   const [text, onChangeText] = React.useState(null);
   const name = "Login Page";
 
   const onLogin = async () => {
-    try {
-      await AsyncStorage.setItem('userId', text)
+    if(text) {
+      if(text.trim() != '') {
+        await AsyncStorage.setItem('userId', text)
 
-      navigation.navigate('Home')
-    } catch (e) {
-      // saving error
-    }
+        navigation.navigate('Home')
+      } else {
+        showError()
+      }
+    } else showError()
+  }
+
+  const showError = () => {
+    Alert.alert(
+      "Error", "Please include user ID",
+      [
+        {
+          text: "Close",
+          // onPress: () => Alert.alert("Cancel Pressed"),
+          style: "Ok",
+        },
+      ],
+      {cancelable: false}
+    )
   }
 
   return (
@@ -41,7 +59,6 @@ const Kek = ({ navigation }) => {
 }
 
 const onChangeText = () => {
-  console.log(123)
 }
 
 const styles = StyleSheet.create({
