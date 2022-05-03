@@ -2,6 +2,36 @@ import 'expo-dev-client';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import ConnectyCube from 'react-native-connectycube';
+import environment from './environment.js';
+
+
+// initialize connectycube
+const CONFIG = {
+  mode: 1,
+  on: {
+    sessionExpired: (handleResponse, retry) => {
+      // call handleResponse() if you do not want to process a session expiration,
+      // so an error will be returned to origin request
+      // handleResponse();
+
+      // JS SDK v1
+      ConnectyCube.createSession((error, session) => {
+        retry(session);
+      });
+
+      // JS SDK v2+
+      ConnectyCube.createSession()
+        .then(retry)
+        .catch((error) => {});
+    },
+  },
+};
+
+console.log(1, environment.CONNECTYCUBE_CREDENTIALS)
+ConnectyCube.init(environment.CONNECTYCUBE_CREDENTIALS, CONFIG)
+
+
 
 import Login from './src/components/Login'
 import Register from './src/components/Register'

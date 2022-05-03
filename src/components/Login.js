@@ -1,31 +1,65 @@
 import React from 'react';
 import { StyleSheet, View, Button, Text, TextInput, Alert } from 'react-native';
+import ConnectyCube from 'react-native-connectycube';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import environment from './environment.js';
-console.log(1, environment.CONNECTYCUBE_CREDENTIALS)
-
 const Kek = ({ navigation }) => {
-  const [text, onChangeText] = React.useState(null);
+  let [username, setUsername] = React.useState(null);
+  let [password, setPassword] = React.useState(null);
   const name = "Login Page";
 
-  const onLogin = async () => {
-    if(text) {
-      if(text.trim() != '') {
-        await AsyncStorage.setItem('userId', text)
+  username="eclair"
+  password="password"
 
-        navigation.navigate('Home')
+
+  // create session
+  ConnectyCube.createSession()
+
+  const onLogin = async () => {
+    console.log('skek: ', username)
+    if(username && password) {
+      if(username.trim() != '' || password.trim() != '') {
+        await AsyncStorage.setItem('userId', username)
+
+        // connectycube create session by login
+        const userCredentials = { login: username, password: password };
+
+        ConnectyCube.login(userCredentials)
+          .then((session) => {
+            // console.log(session)
+
+            ConnectyCube.chat.connect({ userId: session.id, password: password })
+              .then((res) => {
+                console.log('on chat connected: ', res)
+                navigation.navigate('Home')
+              })
+              .catch((error) => {
+                console.error('on chat error: ', error)
+              })
+          })
+          .catch((error) => {
+            console.error(error)
+          });
       } else {
         showError()
       }
     } else showError()
   }
 
+  const Alan = ({ aaa }) => {
+    return (
+      <TextInput
+        style={styles.input}
+        placeholder={aaa}
+      />
+    )
+  }
+
   const showError = () => {
     Alert.alert(
-      "Error", "Please include user ID",
+      "Error", "Please include username and password",
       [
         {
-          text: "Close",
+          username: "Close",
           // onPress: () => Alert.alert("Cancel Pressed"),
           style: "Ok",
         },
@@ -36,16 +70,25 @@ const Kek = ({ navigation }) => {
 
   return (
     <View>
-      <Text>Hello, this is {text ? text : name }!</Text>
+      <Text>Hello, this is {username ? username : name }!</Text>
+      <Alan
+        aaa={'yawa'}
+      />
       <TextInput
         style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-        placeholder="user id"
+        onChangeText={(username) => setUsername(username)}
+        value={username}
+        placeholder="username"
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={(password) => setPassword(password)}
+        value={password}
+        placeholder="password"
       />
       <Button
         title="Go to Home"
-        onPress={() => onLogin({text})}
+        onPress={() => onLogin({username})}
         style={styles.b1}
       />
       <Button
