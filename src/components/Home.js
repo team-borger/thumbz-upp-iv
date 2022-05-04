@@ -43,6 +43,7 @@ const App = ({ navigation }) => {
       renderNavigationView={navigationView}
     >
       <View style={styles.container}>
+        <Text></Text>
         <Button
           title="Open drawer"
           onPress={() => drawer.current.openDrawer()}
