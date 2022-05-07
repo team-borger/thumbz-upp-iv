@@ -68,6 +68,11 @@ const Cat = ({ navigation }) => {
         placeholder="Callee ID"
       />
       <Button
+        title="Set calee as 'Eclair'"
+        onPress={() => { caleeId = '5744964' }}
+        style={styles.b1}
+      />
+      <Button
         title="Initiate call"
         onPress={() => connectyCube()}
         style={styles.b1}

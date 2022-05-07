@@ -14,6 +14,11 @@ const Kek = ({ navigation }) => {
   // create session
   ConnectyCube.createSession()
 
+  const setSecondUser = () => {
+    username="anna"
+    password="password"
+  };
+
   const onLogin = async () => {
     console.log('skek: ', username)
     if(username && password) {
@@ -85,6 +90,11 @@ const Kek = ({ navigation }) => {
         onChangeText={(password) => setPassword(password)}
         value={password}
         placeholder="password"
+      />
+      <Button
+        title="Set login as 'Anna'"
+        onPress={() => setSecondUser()}
+        style={styles.b1}
       />
       <Button
         title="Go to Home"
