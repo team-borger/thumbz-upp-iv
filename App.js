@@ -37,6 +37,7 @@ import Login from './src/components/Login'
 import Register from './src/components/Register'
 import Home from './src/components/Home'
 import Call from './src/components/Call'
+import CallScreen from './src/components/CallScreen'
 
 
 const Stack = createNativeStackNavigator();
@@ -49,6 +50,7 @@ const App = () => {
         <Stack.Screen name="Home" component={Home} option={{title: 'Home!!'}} />
         <Stack.Screen name="Register" component={Register} option={{title: 'Register!!'}} />
         <Stack.Screen name="Call" component={Call} option={{title: 'Call!!'}} />
+        <Stack.Screen name="CallScreen" component={CallScreen} option={{title: 'CallScreen!!'}} />
       </Stack.Navigator>
     </NavigationContainer>
   );

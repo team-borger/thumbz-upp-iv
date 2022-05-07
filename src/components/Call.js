@@ -1,17 +1,19 @@
 import React from 'react';
 import { StyleSheet, View, Button, Text, TextInput } from 'react-native';
 import ConnectyCube from 'react-native-connectycube';
-import {RTCView} from 'react-native-connectycube';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Cat = () => {
+const Cat = ({ navigation }) => {
   let [caleeId, setCalleeId] = React.useState(null);
 
   caleeId = '5757268'
   let localStream_ = ''
   let session = ''
+  let extension = {}
 
   const connectyCube = () => {
-    const calleesIds = [5757268]; // User's ids
+    let calleesIds = []; // User's ids
+      calleesIds.push(Number(caleeId))
     const sessionType = ConnectyCube.videochat.CallType.VIDEO; // AUDIO is also possible
     const additionalOptions = { bandwidth: 256 };
     session = ConnectyCube.videochat.createNewSession(calleesIds, sessionType, additionalOptions);
@@ -37,26 +39,23 @@ const Cat = () => {
   };
 
   const initCall = () => {
-    const extension = {};
     session.call(extension, (error) => {
       console.log('xtension: ', extension)
       console.log('err: ', error)
+
     });
+    AsyncStorage.setItem('caleeId', caleeId)
+    AsyncStorage.setItem('localStream', JSON.stringify(localStream_))
+
+    navigation.navigate('CallScreen')
   };
 
-  const CallView = ({caleeId, localStream}) => {
-    if(localStream != '') {
-      return <RTCView  objectFit="cover" style={styles.rtcView} key={caleeId} streamURL={localStream.toURL()} />;
-    }
-    else return null;
-  }
+  const stopCall = () => {
+    session.stop(extension);
+  };
 
   return (
     <View>
-      <CallView
-        caleeId={caleeId}
-        localStream={localStream_}
-      />
       <TextInput
         style={styles.input}
         onChangeText={(caleeId) => setCalleeId(caleeId)}
@@ -66,6 +65,11 @@ const Cat = () => {
       <Button
         title="Initiate call"
         onPress={() => connectyCube()}
+        style={styles.b1}
+      />
+      <Button
+        title="Stop call"
+        onPress={() => stopCall()}
         style={styles.b1}
       />
     </View>
