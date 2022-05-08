@@ -1,6 +1,6 @@
 import { Platform, ToastAndroid } from 'react-native';
 import ConnectyCube from 'react-native-connectycube';
-import CallScreen from "../components/CallScreen";
+import CallScreen from "../components/VideoScreen/CallScreen";
 import InCallManager from 'react-native-incall-manager';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Sound from 'react-native-sound';
@@ -39,12 +39,12 @@ export default class CallService {
         console.log('on sessionCreate', stream)
         this._session.call({});
 
-        <CallScreen
-          calee={caleeId}
-          locStream={stream.toURL()}
-        >
-        </CallScreen>
-        return stream
+        // <CallScreen
+        //   calee={caleeId}
+        //   locStream={stream.toURL()}
+        // >
+        // </CallScreen>
+        return {calee: caleeId, stream: stream}
       })
       .catch((error) => {
         console.error('session error', error)

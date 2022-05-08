@@ -1,13 +1,16 @@
 import React from 'react';
 import { StyleSheet, View, Button, Text, TextInput, TouchableOpacity } from 'react-native';
-import { AuthService, CallService } from './../services';
+import { AuthService, CallService } from '../../services';
 import ConnectyCube from 'react-native-connectycube';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const Cat = ({ navigation }) => {
 
   const startCall = async () => {
     CallService.startCall()
-    navigation.navigate('CallScreen')
+    .then(response => {
+      console.log(111111111111111111, response)
+      navigation.navigate('CallScreen', {response: response})
+    })
   };
 
   const logout = () => {

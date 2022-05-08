@@ -3,16 +3,21 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {AuthService} from './src/services';
-import Login from './src/components/Login'
+import Login from './src/components/AuthScreen/Login'
 import Register from './src/components/Register'
 import Home from './src/components/Home'
-import Call from './src/components/Call'
-import CallScreen from './src/components/CallScreen'
+import Call from './src/components/VideoScreen/Call'
+import CallScreen from './src/components/VideoScreen/CallScreen'
+
+import AuthScreen from './src/components/AuthScreen'
+import VideoScreen from './src/components/VideoScreen'
 
 AuthService.init();
 
 const Stack = createNativeStackNavigator();
 
+// <Stack.Screen name="AuthScreen" component={AuthScreen} option={{title: 'AuthScreen!!'}} />
+// <Stack.Screen name="VideoScreen" component={VideoScreen} option={{title: 'VideoScreen!!'}} />
 const App = () => {
   return (
     <NavigationContainer>
