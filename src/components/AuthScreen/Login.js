@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import ConnectyCube from 'react-native-connectycube';
-import { AuthService } from './../services';
+import { AuthService } from '../../services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const Kek = ({ navigation }) => {
   const name = "Login Page";
@@ -36,6 +36,13 @@ const Kek = ({ navigation }) => {
   }
 
   // <Text>Hello, this is {username ? username : name }!</Text>
+  // <TouchableOpacity onPress={() => navigation.push('')}>
+  //     style={[styles.authBtn, styles.centeredChildren]}>
+  //     <Text style={styles.authBtnText}>
+  //       {"try"}
+  //     </Text>
+  //   </View>
+  // </TouchableOpacity>
   return (
     <View>
       <TouchableOpacity onPress={() => onLogin('anna', 'password')}>
