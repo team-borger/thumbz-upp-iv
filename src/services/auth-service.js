@@ -18,16 +18,16 @@ export default class AuthService {
             AsyncStorage.setItem('userId', JSON.stringify(session.id))
 
             ConnectyCube.chat.connect({ userId: session.id, password: user.password })
-            .then((res) => {
+            .then(() => {
               console.log('logged in as', session.login)
             })
+            .then(resolve)
             .catch((error) => {
               console.error('on chat error: ', error)
             })
           })
           .catch(reject);
         })
-        .then(resolve)
         .catch(reject);
     });
   };

@@ -11,8 +11,9 @@ const Kek = ({ navigation }) => {
 
   const onLogin = async (username, password) => {
     console.log('logging in as', username)
-    AuthService.login({ login: username, password: password })
-      .then(() => {
+    await AuthService.login({ login: username, password: password })
+      .then((res) => {
+        console.log(res)
         navigation.navigate('Home')
       })
       .catch(() => {
