@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
-import { Button, DrawerLayoutAndroid, Text, StyleSheet, View } from "react-native";
+import { Button, DrawerLayoutAndroid, Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import { AuthService } from './../services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ConnectyCube from 'react-native-connectycube';
 
 const App = ({ navigation }) => {
   const drawer = useRef(null);
@@ -25,6 +27,11 @@ const App = ({ navigation }) => {
     }
   }
 
+  const logout = () => {
+    AuthService.logout()
+    navigation.navigate('Login')
+  };
+
   const navigationView = () => (
     <View style={[styles.container, styles.navigationContainer]}>
       <Text style={styles.paragraph}>I'm in the Drawer!</Text>
@@ -44,15 +51,30 @@ const App = ({ navigation }) => {
     >
       <View style={styles.container}>
         <Text></Text>
-        <Button
-          title="Open drawer"
-          onPress={() => drawer.current.openDrawer()}
-        />
-        <Button
-          title="Go to call"
-          onPress={() => setValue()}
-          // onPress={() => navigation.navigate('Call')}
-        />
+        <TouchableOpacity onPress={() => drawer.current.openDrawer()}>
+          <View
+            style={[styles.authBtn, styles.centeredChildren]}>
+            <Text style={styles.authBtnText}>
+              {"Open drawer"}
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setValue()}>
+          <View
+            style={[styles.authBtn, styles.centeredChildren]}>
+            <Text style={styles.authBtnText}>
+              {"Go to call"}
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => logout()}>
+          <View
+            style={[styles.authBtn, styles.centeredChildren]}>
+            <Text style={styles.authBtnText}>
+              {"Logout"}
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </DrawerLayoutAndroid>
   );
@@ -61,7 +83,6 @@ const App = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
     padding: 16
   },
@@ -72,7 +93,26 @@ const styles = StyleSheet.create({
     padding: 16,
     fontSize: 15,
     textAlign: "center"
-  }
+  },
+  centeredChildren: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  f1: {
+    flex: 1,
+  },
+  authBtn: {
+    backgroundColor: 'green',
+    height: 50,
+    borderRadius: 25,
+    marginHorizontal: 25,
+    marginVertical: 5,
+  },
+  authBtnText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '700',
+  },
 });
 
 export default App;

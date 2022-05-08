@@ -1,62 +1,23 @@
 import React from 'react';
-import { StyleSheet, View, Button, Text, TextInput, Alert } from 'react-native';
+import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import ConnectyCube from 'react-native-connectycube';
+import { AuthService } from './../services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const Kek = ({ navigation }) => {
-  let [username, setUsername] = React.useState(null);
-  let [password, setPassword] = React.useState(null);
   const name = "Login Page";
-
-  username="eclair"
-  password="password"
-
 
   // create session
   ConnectyCube.createSession()
 
-  const setSecondUser = () => {
-    username="anna"
-    password="password"
-  };
-
-  const onLogin = async () => {
-    console.log('skek: ', username)
-    if(username && password) {
-      if(username.trim() != '' || password.trim() != '') {
-        await AsyncStorage.setItem('userId', username)
-
-        // connectycube create session by login
-        const userCredentials = { login: username, password: password };
-
-        ConnectyCube.login(userCredentials)
-          .then((session) => {
-            // console.log(session)
-
-            ConnectyCube.chat.connect({ userId: session.id, password: password })
-              .then((res) => {
-                console.log('on chat connected: ', res)
-                navigation.navigate('Home')
-              })
-              .catch((error) => {
-                console.error('on chat error: ', error)
-              })
-          })
-          .catch((error) => {
-            console.error(error)
-          });
-      } else {
-        showError()
-      }
-    } else showError()
-  }
-
-  const Alan = ({ aaa }) => {
-    return (
-      <TextInput
-        style={styles.input}
-        placeholder={aaa}
-      />
-    )
+  const onLogin = async (username, password) => {
+    console.log('logging in as', username)
+    AuthService.login({ login: username, password: password })
+      .then(() => {
+        navigation.navigate('Home')
+      })
+      .catch(() => {
+        console.error(error)
+      })
   }
 
   const showError = () => {
@@ -73,40 +34,33 @@ const Kek = ({ navigation }) => {
     )
   }
 
+  // <Text>Hello, this is {username ? username : name }!</Text>
   return (
     <View>
-      <Text>Hello, this is {username ? username : name }!</Text>
-      <Alan
-        aaa={'yawa'}
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={(username) => setUsername(username)}
-        value={username}
-        placeholder="username"
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={(password) => setPassword(password)}
-        value={password}
-        placeholder="password"
-      />
-      <Button
-        title="Set login as 'Anna'"
-        onPress={() => setSecondUser()}
-        style={styles.b1}
-      />
-      <Button
-        title="Go to Home"
-        onPress={() => onLogin({username})}
-        style={styles.b1}
-      />
-      <Button
-        title="Go to registration"
-        onPress={() =>
-          navigation.navigate('Register')
-        }
-      />
+      <TouchableOpacity onPress={() => onLogin('anna', 'password')}>
+        <View
+          style={[styles.authBtn, styles.centeredChildren]}>
+          <Text style={styles.authBtnText}>
+            {"login as 'Anna'"}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => onLogin('eclair', 'password')}>
+        <View
+          style={[styles.authBtn, styles.centeredChildren]}>
+          <Text style={styles.authBtnText}>
+            {"login as 'Eclair'"}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+        <View
+          style={[styles.authBtn, styles.centeredChildren]}>
+          <Text style={styles.authBtnText}>
+            {"Register"}
+          </Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -115,26 +69,25 @@ const onChangeText = () => {
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  //   marginTop: 50,
-  // },
-  // bigBlue: {
-  //   color: 'blue',
-  //   fontWeight: 'bold',
-  //   fontSize: 30,
-  // },
-  // red: {
-  //   color: 'red',
-  // },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
+  centeredChildren: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  b1: {
-    marginBottom: 100,
-  }
+  f1: {
+    flex: 1,
+  },
+  authBtn: {
+    backgroundColor: 'green',
+    height: 50,
+    borderRadius: 25,
+    marginHorizontal: 25,
+    marginVertical: 5,
+  },
+  authBtnText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '700',
+  },
 });
 
 export default Kek;

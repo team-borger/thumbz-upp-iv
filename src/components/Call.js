@@ -1,19 +1,26 @@
 import React from 'react';
-import { StyleSheet, View, Button, Text, TextInput } from 'react-native';
+import { StyleSheet, View, Button, Text, TextInput, TouchableOpacity } from 'react-native';
+import { AuthService } from './../services';
 import ConnectyCube from 'react-native-connectycube';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CallScreen from "../components/CallScreen";
 const Cat = ({ navigation }) => {
-  let [caleeId, setCalleeId] = React.useState(null);
   // let [lStream, setLocSteam] = React.useState(null);
-  caleeId = '5757268'
+
+  let caleeId = ''
   let localStream_ = ''
   let session = ''
   let extension = {}
 
-  const connectyCube = () => {
+  const connectyCube = async () => {
     let calleesIds = []; // User's ids
-    calleesIds.push(Number(caleeId))
+
+    const userId = await AsyncStorage.getItem('userId')
+    if(userId == '5757268') calleesIds.push(5744964)
+    else calleesIds.push(5757268)
+
+    caleeId = Number(userId)
+
     const sessionType = ConnectyCube.videochat.CallType.VIDEO; // AUDIO is also possible
     const additionalOptions = { bandwidth: 256 };
     session = ConnectyCube.videochat.createNewSession(calleesIds, sessionType, additionalOptions);
@@ -59,54 +66,61 @@ const Cat = ({ navigation }) => {
     session.stop(extension);
   };
 
+  const logout = () => {
+    AuthService.logout()
+    navigation.navigate('Login')
+  };
+
   return (
     <View>
-      <TextInput
-        style={styles.input}
-        onChangeText={(caleeId) => setCalleeId(caleeId)}
-        value={caleeId}
-        placeholder="Callee ID"
-      />
-      <Button
-        title="Set calee as 'Eclair'"
-        onPress={() => { caleeId = '5744964' }}
-        style={styles.b1}
-      />
-      <Button
-        title="Initiate call"
-        onPress={() => connectyCube()}
-        style={styles.b1}
-      />
-      <Button
-        title="Stop call"
-        onPress={() => stopCall()}
-        style={styles.b1}
-      />
+      <TouchableOpacity onPress={() => connectyCube()}>
+        <View
+          style={[styles.authBtn, styles.centeredChildren]}>
+          <Text style={styles.authBtnText}>
+            {"Initiate call"}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => stopCall()}>
+        <View
+          style={[styles.authBtn, styles.centeredChildren]}>
+          <Text style={styles.authBtnText}>
+            {"Stop call"}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => logout()}>
+        <View
+          style={[styles.authBtn, styles.centeredChildren]}>
+          <Text style={styles.authBtnText}>
+            {"Logout"}
+          </Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  //   marginTop: 50,
-  // },
-  // bigBlue: {
-  //   color: 'blue',
-  //   fontWeight: 'bold',
-  //   fontSize: 30,
-  // },
-  // red: {
-  //   color: 'red',
-  // },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
+  centeredChildren: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  b1: {
-    padding: 40,
-  }
+  f1: {
+    flex: 1,
+  },
+  authBtn: {
+    backgroundColor: 'green',
+    height: 50,
+    borderRadius: 25,
+    marginHorizontal: 25,
+    marginVertical: 5,
+  },
+  authBtnText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: '700',
+  },
 });
 
 export default Cat;
