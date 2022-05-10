@@ -11,7 +11,7 @@ const CallScreen = (response) => {
 
   return (
     <View style={styles.blackView}>
-      <RTCView objectFit="cover" key={rtc.calee} streamURL={rtc.stream.toURL()} />
+      <RTCView style={styles.rtcView} objectFit="cover" key={rtc.calee} streamURL={rtc.stream.toURL()} />
     </View>
   );
 };
@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
   blackView: {
     flex: 1,
     backgroundColor: 'black',
+  },
+  rtcView: {
+    height: 150,
+    width: 100
   },
 });
 
