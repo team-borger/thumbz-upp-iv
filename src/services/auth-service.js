@@ -15,7 +15,7 @@ export default class AuthService {
         .then(() => {
           ConnectyCube.login(user)
           .then((session) => {
-            AsyncStorage.setItem('userId', JSON.stringify(session.id))
+            AsyncStorage.setItem('session_', JSON.stringify(session))
 
             ConnectyCube.chat.connect({ userId: session.id, password: user.password })
             .then(() => {
