@@ -3,8 +3,6 @@ import { StyleSheet, View, Button, Text, TextInput } from 'react-native';
 import ConnectyCube from 'react-native-connectycube';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RTCView } from 'react-native-connectycube';
-// let caleeId = ''
-// let localStream = {}
 
 const CallScreen = (response) => {
   const rtc = response.route.params.response

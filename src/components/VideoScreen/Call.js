@@ -13,6 +13,17 @@ const Cat = ({ navigation }) => {
     })
   };
 
+  const acceptCall = () => {
+    CallService.acceptCall()
+    .then(response => {
+      navigation.navigate('CallScreen', {response: response})
+    })
+  };
+
+  const onStopCallButtonClicked = () => {
+    CallService.stopCall()
+  };
+
   const logout = () => {
     AuthService.logout()
     navigation.navigate('Login')
@@ -28,7 +39,15 @@ const Cat = ({ navigation }) => {
           </Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => CallService.stopCall()}>
+      <TouchableOpacity onPress={() => acceptCall()}>
+        <View
+          style={[styles.authBtn, styles.centeredChildren]}>
+          <Text style={styles.authBtnText}>
+            {"Accept call"}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => onStopCallButtonClicked()}>
         <View
           style={[styles.authBtn, styles.centeredChildren]}>
           <Text style={styles.authBtnText}>
@@ -52,9 +71,6 @@ const styles = StyleSheet.create({
   centeredChildren: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  f1: {
-    flex: 1,
   },
   authBtn: {
     backgroundColor: 'green',
