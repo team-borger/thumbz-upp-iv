@@ -19,7 +19,6 @@ const App = ({ navigation }) => {
     try {
       const session_ = await AsyncStorage.getItem('session_')
       if(session_ !== null) {
-        console.log(session_)
         navigation.navigate('Call')
       }
     } catch(e) {

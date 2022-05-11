@@ -31,11 +31,11 @@ export default class CallService {
 
   _setUpListeners() {
     ConnectyCube.videochat.onCallListener = this._onCallListener;
-    // ConnectyCube.videochat.onAcceptCallListener = this._onAcceptCallListener;
+    ConnectyCube.videochat.onAcceptCallListener = this._onAcceptCallListener;
     // ConnectyCube.videochat.onRejectCallListener = this._onRejectCallListener;
     // ConnectyCube.videochat.onStopCallListener = this._onStopCallListener;
     ConnectyCube.videochat.onUserNotAnswerListener = this._onUserNotAnswerListener;
-    // ConnectyCube.videochat.onRemoteStreamListener = this._onRemoteStreamListener;
+    ConnectyCube.videochat.onRemoteStreamListener = this._onRemoteStreamListener;
   }
 
   startCall = async () => {
@@ -61,6 +61,19 @@ export default class CallService {
       })
       .catch((error) => {
         console.error('session error', error)
+      });
+  };
+
+  acceptCall = session => {
+    this.stopSounds();
+    this._session = session;
+    this.setMediaDevices();
+
+    return this._session
+      .getUserMedia(CallService.MEDIA_OPTIONS)
+      .then(stream => {
+        this._session.accept({});
+        return stream;
       });
   };
 
@@ -117,5 +130,16 @@ export default class CallService {
     console.log('_onUserNotAnswerListener 1:', session)
     console.log('_onUserNotAnswerListener 2:', userId)
     this.showToast(`${userId} could not answer!`)
+  }
+
+  _onAcceptCallListener = (session, userId, extension) => {
+    console.log('_onAcceptCallListener 1:', session)
+    console.log('_onAcceptCallListener 2:', userId)
+    console.log('_onAcceptCallListener 3:', extension)
+    this.showToast(`${userId} answered!`)
+  }
+
+  _onRemoteStreamListener = (session, userID, remoteStream) => {
+
   }
 }
