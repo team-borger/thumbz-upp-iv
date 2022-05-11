@@ -17,9 +17,9 @@ const App = ({ navigation }) => {
 
   const setValue = async () => {
     try {
-      const value = await AsyncStorage.getItem('userId')
-      if(value !== null) {
-        console.log(value)
+      const session_ = await AsyncStorage.getItem('session_')
+      if(session_ !== null) {
+        console.log(session_)
         navigation.navigate('Call')
       }
     } catch(e) {

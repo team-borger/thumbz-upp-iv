@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import ConnectyCube from 'react-native-connectycube';
-import { AuthService } from '../../services';
+import { AuthService, CallService } from '../../services';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const Kek = ({ navigation }) => {
   const name = "Login Page";
@@ -12,8 +12,8 @@ const Kek = ({ navigation }) => {
   const onLogin = async (username, password) => {
     console.log('logging in as', username)
     await AuthService.login({ login: username, password: password })
-      .then((res) => {
-        console.log(res)
+      .then(() => {
+        CallService._setUpListeners()
         navigation.navigate('Home')
       })
       .catch(() => {

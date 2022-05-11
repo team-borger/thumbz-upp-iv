@@ -1,4 +1,5 @@
 import { Platform, ToastAndroid } from 'react-native';
+import Toast from 'react-native-simple-toast';
 import ConnectyCube from 'react-native-connectycube';
 import CallScreen from "../components/VideoScreen/CallScreen";
 import InCallManager from 'react-native-incall-manager';
@@ -10,9 +11,17 @@ export default class CallService {
   _session = null;
   mediaDevices = [];
 
+  _incomingCallSession = null;
+
   outgoingCall = new Sound(require('../assets/audio/dialing.mp3'));
   incomingCall = new Sound(require('../assets/audio/calling.mp3'));
   endCall = new Sound(require('../assets/audio/end_call.mp3'));
+
+  showToast = text => {
+    const commonToast = Platform.OS === 'android' ? ToastAndroid : Toast;
+
+    commonToast.showWithGravity(text, Toast.LONG, Toast.TOP);
+  };
 
   setMediaDevices() {
     return ConnectyCube.videochat.getMediaDevices().then(mediaDevices => {
@@ -20,14 +29,23 @@ export default class CallService {
     });
   }
 
+  _setUpListeners() {
+    ConnectyCube.videochat.onCallListener = this._onCallListener;
+    // ConnectyCube.videochat.onAcceptCallListener = this._onAcceptCallListener;
+    // ConnectyCube.videochat.onRejectCallListener = this._onRejectCallListener;
+    // ConnectyCube.videochat.onStopCallListener = this._onStopCallListener;
+    ConnectyCube.videochat.onUserNotAnswerListener = this._onUserNotAnswerListener;
+    // ConnectyCube.videochat.onRemoteStreamListener = this._onRemoteStreamListener;
+  }
+
   startCall = async () => {
     let calleesIds = []; // User's ids
 
-    const userId = await AsyncStorage.getItem('userId')
-    if(userId == '5757268') calleesIds.push(5744964)
+    const session_ = await AsyncStorage.getItem('session_')
+    if(session_.id == '5757268') calleesIds.push(5744964)
     else calleesIds.push(5757268)
 
-    caleeId = Number(userId)
+    caleeId = Number(session_.id)
 
     const sessionType = ConnectyCube.videochat.CallType.VIDEO; // AUDIO is also possible
     const additionalOptions = { bandwidth: 256 };
@@ -39,11 +57,6 @@ export default class CallService {
         console.log('on sessionCreate', stream)
         this._session.call({});
 
-        // <CallScreen
-        //   calee={caleeId}
-        //   locStream={stream.toURL()}
-        // >
-        // </CallScreen>
         return {calee: caleeId, stream: stream}
       })
       .catch((error) => {
@@ -90,4 +103,19 @@ export default class CallService {
       this.outgoingCall.pause();
     }
   };
+
+  _onCallListener = (session, extension) => {
+    // const session_ = JSON.parse(await AsyncStorage.getItem('session_'));
+    // ConnectyCube.videochat.onCallListener = function (session_, {}) {};
+    console.log('_onCallListener 1:', session)
+    console.log('_onCallListener 2:', extension)
+    this.playSound('incoming');
+    this.showToast(`Incoming call!`)
+  }
+
+  _onUserNotAnswerListener = (session, userId) => {
+    console.log('_onUserNotAnswerListener 1:', session)
+    console.log('_onUserNotAnswerListener 2:', userId)
+    this.showToast(`${userId} could not answer!`)
+  }
 }
