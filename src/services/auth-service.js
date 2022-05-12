@@ -33,6 +33,7 @@ export default class AuthService {
   };
 
   logout = () => {
+    ConnectyCube.chat.disconnect();
     ConnectyCube.logout();
     ConnectyCube.destroySession();
     return true;
