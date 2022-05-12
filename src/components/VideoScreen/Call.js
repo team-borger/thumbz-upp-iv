@@ -5,7 +5,7 @@ import ConnectyCube from 'react-native-connectycube';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const Cat = ({ navigation }) => {
 
-  const startCall = async () => {
+  const startCall = () => {
     CallService.startCall()
     .then(response => {
       console.log(111111111111111111, response)
