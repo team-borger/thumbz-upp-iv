@@ -64,17 +64,20 @@ export default class CallService {
       });
   };
 
-  acceptCall = session => {
+  acceptCall = () => {
     this.stopSounds();
-    this._session = session;
-    this.setMediaDevices();
+    // this._session = session;
+    if (this._session) {
+      this.setMediaDevices();
 
-    return this._session
+      return this._session
       .getUserMedia(CallService.MEDIA_OPTIONS)
       .then(stream => {
         this._session.accept({});
         return stream;
       });
+    }
+    console.log('accept _session: ', this._session)
   };
 
   stopCall = () => {
