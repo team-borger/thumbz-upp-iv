@@ -45,7 +45,7 @@ export default class CallService {
     if(session_.id == '5757268') calleesIds.push(5744964)
     else calleesIds.push(5757268)
 
-    caleeId = Number(session_.id)
+    const caleeId = Number(session_.id)
 
     const sessionType = ConnectyCube.videochat.CallType.VIDEO; // AUDIO is also possible
     const additionalOptions = { bandwidth: 256 };
