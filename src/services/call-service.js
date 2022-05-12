@@ -64,19 +64,16 @@ export default class CallService {
   };
 
   acceptCall = () => {
+    // const onCallSession = JSON.parse(await AsyncStorage.getItem('onCallSession'))
     this.stopSounds();
-    // this._session = session;
-    if (this._session) {
-      this.setMediaDevices();
+    this.setMediaDevices();
 
-      return this._session
+    return this._incomingCallSession
       .getUserMedia(CallService.MEDIA_OPTIONS)
       .then(stream => {
-        this._session.accept({});
+        this._incomingCallSession.accept({});
         return stream;
       });
-    }
-    console.log('accept _session: ', this._session)
   };
 
   stopCall = () => {
@@ -120,8 +117,8 @@ export default class CallService {
   };
 
   _onCallListener = (session, extension) => {
-    // const session_ = JSON.parse(await AsyncStorage.getItem('session_'));
-    // ConnectyCube.videochat.onCallListener = function (session_, {}) {};
+    // AsyncStorage.setItem('onCallSession', JSON.stringify(session))
+    this._incomingCallSession = session
     console.log('_onCallListener 1:', session)
     console.log('_onCallListener 2:', extension)
     this.playSound('incoming');
@@ -142,6 +139,9 @@ export default class CallService {
   }
 
   _onRemoteStreamListener = (session, userID, remoteStream) => {
-
+    console.log('_onRemoteStreamListener 1:', session)
+    console.log('_onRemoteStreamListener 2:', userID)
+    console.log('_onRemoteStreamListener 3:', remoteStream)
+    this.showToast(`_onRemoteStreamListener!`)
   }
 }
