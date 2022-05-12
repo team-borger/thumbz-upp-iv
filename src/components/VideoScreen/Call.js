@@ -16,7 +16,8 @@ const Cat = ({ navigation }) => {
   const acceptCall = () => {
     CallService.acceptCall()
     .then(response => {
-      navigation.navigate('CallScreen', {response: response})
+      console.log('accept call return', response)
+      // navigation.navigate('CallScreen', {response: response})
     })
   };
 
