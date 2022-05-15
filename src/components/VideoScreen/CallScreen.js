@@ -7,7 +7,7 @@ import { RTCView } from 'react-native-connectycube';
 const CallScreen = (response) => {
 
   const RTCViews = () => {
-    const res = response.route.params.response;
+    const res = response.route.params;
     if(res.localKey) {
       return (
         <View style={styles.blackView}>
@@ -19,7 +19,7 @@ const CallScreen = (response) => {
     else {
       return (
         <View style={styles.blackView}>
-          <RTCView style={styles.rtcView} objectFit="cover" key={res.calee} streamURL={res.stream.toURL()} />
+          <RTCView style={styles.rtcView} objectFit="cover" key={res.response.calee} streamURL={res.response.stream.toURL()} />
         </View>
       );
     }
