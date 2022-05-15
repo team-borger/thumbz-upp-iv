@@ -26,7 +26,7 @@ const CallScreen = (response) => {
   };
 
   return (
-    {RTCViews}
+    <RTCViews />
   );
 };
 
