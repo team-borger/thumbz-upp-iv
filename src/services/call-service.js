@@ -1,3 +1,4 @@
+import * as RootNavigation from '../../App.js';
 import { Platform, ToastAndroid } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import ConnectyCube from 'react-native-connectycube';
@@ -143,5 +144,7 @@ export default class CallService {
     console.log('_onRemoteStreamListener 2:', userID)
     console.log('_onRemoteStreamListener 3:', remoteStream)
     this.showToast(`_onRemoteStreamListener!`)
+
+    RootNavigation.navigate('CallScreen', {response: 123123})
   }
 }
