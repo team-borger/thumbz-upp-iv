@@ -149,7 +149,7 @@ export default class CallService {
         localKey: session.currentUserID,
         localStream: session.localStream,
         remoteKey: userID,
-        remoteStream: session.remoteStream,
+        remoteStream: remoteStream,
       });
   }
 }
