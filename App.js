@@ -1,6 +1,6 @@
 import 'expo-dev-client';
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, createNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {AuthService} from './src/services';
 import Login from './src/components/AuthScreen/Login'
@@ -13,6 +13,13 @@ import AuthScreen from './src/components/AuthScreen'
 import VideoScreen from './src/components/VideoScreen'
 
 AuthService.init();
+
+const navigationRef = createNavigationContainerRef()
+function navigate(name, params) {
+  if (navigationRef.isReady()) {
+    navigationRef.navigate(name, params);
+  }
+}
 
 const Stack = createNativeStackNavigator();
 const App = () => {
