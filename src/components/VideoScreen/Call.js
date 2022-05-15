@@ -8,8 +8,10 @@ const Cat = ({ navigation }) => {
   const startCall = () => {
     CallService.startCall()
     .then(response => {
-      console.log(111111111111111111, response)
-      navigation.navigate('CallScreen', {response: response})
+      if(response) {
+        console.log(111111111111111111, response)
+        navigation.navigate('CallScreen', {response: response})
+      }
     })
   };
 
@@ -17,7 +19,7 @@ const Cat = ({ navigation }) => {
     CallService.acceptCall()
     .then(response => {
       console.log('accept call return', response)
-      // navigation.navigate('CallScreen', {response: response})
+      // navigation.navigate('CallScreen')
     })
   };
 

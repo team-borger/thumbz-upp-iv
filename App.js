@@ -15,9 +15,6 @@ import VideoScreen from './src/components/VideoScreen'
 AuthService.init();
 
 const Stack = createNativeStackNavigator();
-
-// <Stack.Screen name="AuthScreen" component={AuthScreen} option={{title: 'AuthScreen!!'}} />
-// <Stack.Screen name="VideoScreen" component={VideoScreen} option={{title: 'VideoScreen!!'}} />
 const App = () => {
   return (
     <NavigationContainer>
