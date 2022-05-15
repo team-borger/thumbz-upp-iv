@@ -1,4 +1,4 @@
-import * as RootNavigation from '../../App.js';
+import * as RootNavigation from '../components/RootNavigation';
 import { Platform, ToastAndroid } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import ConnectyCube from 'react-native-connectycube';
