@@ -8,7 +8,7 @@ const CallScreen = (response) => {
 
   const RTCViews = () => {
     const res = response.route.params.response;
-    if(res.currentUserID) {
+    if(res.localKey) {
       return (
         <View style={styles.blackView}>
           <RTCView style={styles.rtcView} objectFit="cover" key={res.localKey} streamURL={res.localStream.toURL()} />
