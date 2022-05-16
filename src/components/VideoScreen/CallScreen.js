@@ -19,7 +19,7 @@ const CallScreen = (response) => {
     else {
       return (
         <View style={styles.blackView}>
-          <RTCView style={styles.localKey} objectFit="cover" key={res.response.calee} streamURL={res.response.stream.toURL()} />
+          <RTCView style={styles.localKey} key={res.response.calee} streamURL={res.response.stream.toURL()} />
         </View>
       );
     }
