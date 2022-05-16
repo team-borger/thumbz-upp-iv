@@ -145,6 +145,11 @@ export default class CallService {
     console.log('_onRemoteStreamListener 3:', remoteStream)
     this.showToast(`_onRemoteStreamListener!`)
 
-    RootNavigation.navigate('CallScreen', {response: 123123})
+    RootNavigation.navigate('CallScreen', {
+        localKey: session.currentUserID,
+        localStream: session.localStream,
+        remoteKey: userID,
+        remoteStream: remoteStream,
+      });
   }
 }
