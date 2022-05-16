@@ -36,11 +36,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   localKey: {
-    height: 180,
-    width: 150,
+    width: Dimensions.get('window').width / 3,
+	  height: Dimensions.get('window').height / 4.5,
     position:'absolute',
     top:10,
-    left:-20,
+    left:-10,
   },
   remoteKey: {
     position:'relative',
